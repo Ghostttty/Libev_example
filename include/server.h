@@ -30,8 +30,8 @@ class Server
 			write_buffer.reserve(1024);
 		}
 
-        Client(const Client &) = delete;
-        Client &operator=(const Client &) = delete;
+		Client(const Client &) = delete;
+		Client &operator=(const Client &) = delete;
 
 		~Client()
 		{
@@ -80,7 +80,7 @@ class Server
 		close(server_fd_);
 		server_fd_ = BAD_FD;
 
-        ev_io_stop(loop_, accept_watcher_.get());
+		ev_io_stop(loop_, accept_watcher_.get());
 
 		ev_break(loop_, EVBREAK_ALL);
 		ev_loop_destroy(loop_);
@@ -120,22 +120,22 @@ class Server
 		client->write_offset = 0;
 
 		ssize_t written = 0;
-        do
+		do
 		{
-            written = write(client->fd, client->write_buffer.data() + client->write_offset,
-            client->write_buffer.size() - client->write_offset);
-            
+			written = write(client->fd, client->write_buffer.data() + client->write_offset,
+			                client->write_buffer.size() - client->write_offset);
+
 			if(written < 0)
 			{
-                if(errno == EAGAIN || errno == EWOULDBLOCK)
-                return;
+				if(errno == EAGAIN || errno == EWOULDBLOCK)
+					return;
 				DeleteClient(loop, client);
 				return;
 			}
-            
+
 			client->write_offset += written;
 
-		}while(client->write_offset != client->write_buffer.size());
+		} while(client->write_offset != client->write_buffer.size());
 
 		client->write_buffer.clear();
 		client->write_offset = 0;
@@ -191,7 +191,7 @@ class Server
 	static void DeleteClient(struct ev_loop *loop, Client *client) noexcept
 	{
 		ev_io_stop(loop, &client->read_watcher);
-        delete client;
+		delete client;
 	}
 
 	int CreateSocket() const

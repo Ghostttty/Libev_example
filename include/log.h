@@ -46,8 +46,8 @@ void log_event(enum logging_level_e logging_lvl, const std::string &data)
 
 	std::string log_message = std::format("[{}][{}] {}", logging_type[logging_lvl], get_timestamp(), data);
 
-    auto& stream = (logging_lvl == INFO) ? std::cout : std::cerr;
-    stream << log_message << '\n';
+	auto &stream = (logging_lvl == INFO) ? std::cout : std::cerr;
+	stream << log_message << '\n';
 
 	file_stream << log_message << std::endl;
 }
